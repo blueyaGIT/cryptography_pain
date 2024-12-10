@@ -26,6 +26,7 @@ enum code{
 void encoding();
 void decoding();
 void morseCode(type operation, const string &input);
+void natoPhonetic(type operation, const string &input);
 
 // util functions
 void clearConsole();
