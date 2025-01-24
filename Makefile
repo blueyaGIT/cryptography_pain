@@ -1,7 +1,14 @@
 NAME = cryptography.a
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall
-SRCS_DIR = ./
+OBJ_DIR := ./obj
+DEP_DIR := $(OBJ_DIR)/.deps
+INC_DIRS := ./includes
+SRC_DIRS := ./srcs
+vpath %.cpp $(SRC_DIRS)
+vpath %.h $(INC_DIRS)
+vpath %.d $(DEP_DIR)
+
 RED = \033[31m
 GREEN = \033[32m
 YELLOW = \033[33m
@@ -12,53 +19,52 @@ NC = \033[0m
 CLEAR_LINE = \033[2K\r
 
 # Source files
-SRCS_FILES = 	main.cpp \
-				morse.cpp \
-				nato.cpp \
-				utils.cpp
+SRCS = 	main.cpp \
+		morse.cpp \
+		nato.cpp \
+		utils.cpp
 
-# Combine SRCS_DIR and the source filenames
-SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
+# Object files
+OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.cpp=%.o))
 
 TOTAL_SRCS = $(words $(SRCS))
 CURRENT = 0
 
-# Object files
-OBJS = $(SRCS:.cpp=.o)
-
 # Default rule to compile all
-all: $(LIBFT) $(NAME)
+all: $(NAME)
 
 # Rule to create the library
 $(NAME): $(OBJS)
+	@echo "$(CLEAR_LINE)$(YELLOW)🚧 Building Turn 🚧$(NC)"
 	@$(CXX) $(CXXFLAGS) -o turn $(OBJS)
-	@echo "\n$(GREEN)✅ Done Compiling ✅$(NC)"
+	@echo "$(CLEAR_LINE)$(GREEN)✅ Done Compiling ✅$(NC)"
 
 # Object file compilation rule
-.cpp.o:
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(@D)
 	@$(eval CURRENT := $(shell echo $$(($(CURRENT) + 1))))
 	@$(eval PERCENT := $(shell echo $$(($(CURRENT) * 100 / $(TOTAL_SRCS)))))
-	@printf "$(CLEAR_LINE)$(YELLOW)Compiling $(PERCENT)%% [$(CURRENT)/$(TOTAL_SRCS)] $(CYAN)$<$(NC)"
-	@$(CXX) $(CXXFLAGS) -c $< -o $(<:.cpp=.o)
+	@printf "$(CLEAR_LINE)$(YELLOW)🚧 Compiling $(PERCENT)%% [$(CURRENT)/$(TOTAL_SRCS)] $(CYAN)$<$(NC) 🚧"
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean object files and libraries
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
 
 # Clean all generated files
 fclean: clean
 	@echo "$(YELLOW)🚧 Cleaning 🚧$(NC)"
-	@sleep 0.3
-	@printf "$(CLEAR_LINE)$(RED)🧹 Cleaning in Progress 🧹$(NC)"
-	@sleep 0.3
-	@printf "$(CLEAR_LINE)$(YELLOW)🛁 Scrubbing Code 🛁$(NC)"
-	@sleep 0.3
-	@printf "$(CLEAR_LINE)$(CYAN)🧽 Polishing Project 🧽$(NC)"
-	@sleep 0.3
-	@printf "$(CLEAR_LINE)$(MAGENTA)🧴 Tidying Up 🧴$(NC)"
-	@sleep 0.3
-	@printf "$(CLEAR_LINE)$(GREEN)✅ Done Cleaning ✅$(NC)\n"
-	@rm -f $(NAME) turn
+	@sleep 0.15
+	@printf "$(RED)🧹 Cleaning in Progress 🧹$(NC)\n"
+	@sleep 0.15
+	@printf "$(YELLOW)🛁 Scrubbing Code 🛁$(NC)\n"
+	@sleep 0.15
+	@printf "$(CYAN)🧽 Polishing Project 🧽$(NC)\n"
+	@sleep 0.15
+	@printf "$(MAGENTA)🧴 Tidying Up 🧴$(NC)\n"
+	@sleep 0.15
+	@printf "$(GREEN)✅ Done Cleaning ✅$(NC)\n"
+	@rm -rf $(NAME)
 
 # Rebuild everything
 re: fclean all

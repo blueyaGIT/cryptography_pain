@@ -1,4 +1,4 @@
-#include "encoder.h"
+#include "../encoder.h"
 
 std::map<char, std::string> morseCodeMap = {
     {'A', ".-"}, {'B', "-..."}, {'C', "-.-."}, {'D', "-.."}, {'E', "."},

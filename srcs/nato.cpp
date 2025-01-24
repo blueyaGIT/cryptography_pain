@@ -1,4 +1,4 @@
-#include "encoder.h"
+#include "../encoder.h"
 
 std::map<char, std::string> natoPhoneticMap = {
     {'A', "Alpha"}, {'B', "Bravo"}, {'C', "Charlie"}, {'D', "Delta"}, {'E', "Echo"},
