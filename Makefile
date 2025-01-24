@@ -1,4 +1,4 @@
-NAME = cryptography.a
+NAME = turn
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall
 OBJ_DIR := ./obj
@@ -36,7 +36,7 @@ all: $(NAME)
 # Rule to create the library
 $(NAME): $(OBJS)
 	@echo "$(CLEAR_LINE)$(YELLOW)🚧 Building Turn 🚧$(NC)"
-	@$(CXX) $(CXXFLAGS) -o turn $(OBJS)
+	@$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 	@echo "$(CLEAR_LINE)$(GREEN)✅ Done Compiling ✅$(NC)"
 
 # Object file compilation rule
